@@ -1,7 +1,18 @@
 const LoanRepository = require('../repositories/LoanRepository');
+const UserRepository = require('../repositories/UserRepository');
+const BookRepository = require('../repositories/BookRepository');
+const Sequelize = require('sequelize');
+const Loan = require('../models/Loan');
+
 
 class LoanService {
   async issueBook(userId, bookId, dueDate) {
+    const user = await UserRepository.getUserById(userId);
+    if (!user) throw new Error('User not found');
+
+    const book = await BookRepository.getBookById(bookId);
+    if (!book) throw new Error('Book not found');
+
     return await LoanRepository.createLoan({ user_id: userId, book_id: bookId, due_date: dueDate });
   }
 
@@ -21,7 +32,29 @@ class LoanService {
   }
 
   async getOverdueLoans() {
-    return await LoanRepository.getOverdueLoans();
+    const now = new Date();
+    const overdueLoans = await Loan.findAll({
+      where: {
+        status: 'ACTIVE',
+        due_date: { [Sequelize.Op.lt]: now }
+      },
+      include: [
+        {
+          model: require('../models/Book'),
+          as: 'book',
+          attributes: ['id', 'title', 'author']
+        }
+      ]
+    });
+
+    return overdueLoans.map(loan => ({
+      id: loan.id,
+      book: loan.book,
+      issue_date: loan.issue_date,
+      due_date: loan.due_date,
+      return_date: loan.return_date,
+      status: loan.status
+    }));
   }
 
   async extendLoan(id, extensionDays) {

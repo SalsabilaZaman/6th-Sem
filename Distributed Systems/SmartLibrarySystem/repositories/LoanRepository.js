@@ -1,5 +1,5 @@
 const Loan = require('../models/Loan');
-
+const Sequelize = require('sequelize');
 class LoanRepository {
   async createLoan(data) {
     return await Loan.create(data);
@@ -27,6 +27,13 @@ class LoanRepository {
         due_date: { [Sequelize.Op.lt]: now }
       }
     });
+  }
+  
+  async findAll() {
+    return await Loan.findAll();
+  }
+  async count(){
+    return await Loan.count();
   }
 }
 

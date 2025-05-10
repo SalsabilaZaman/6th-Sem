@@ -83,9 +83,17 @@ const deleteBook = async (bookId) => {
     }
   };
   
+const findAll=async() => {
+    return await Book.findAll();
+  };
+const count = async () => {
+    return await Book.count();
+  };
+  
+  
 module.exports = {
   addBook,
   getBookById,
   updateBook,
-  deleteBook,borrowBook,
+  deleteBook,borrowBook,findAll,count
 };

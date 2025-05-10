@@ -8,11 +8,13 @@ router.post('/', LoanController.issueBook);
 // Return a borrowed book
 router.post('/returns', LoanController.returnBook);
 
-// Get loan history for a user
-router.get('/:user_id', LoanController.getUserLoans);
 
 // List all overdue loans
 router.get('/overdue', LoanController.getOverdueLoans);
+
+// Get loan history for a user
+
+router.get('/:user_id', LoanController.getUserLoans);
 
 // Extend the due date for a loan
 router.put('/:id/extend', LoanController.extendLoan);

@@ -32,4 +32,5 @@ const Loan = sequelize.define('Loan', {
   }
 });
 
+Loan.belongsTo(require('./Book'), { foreignKey: 'book_id', as: 'book' });
 module.exports = Loan;

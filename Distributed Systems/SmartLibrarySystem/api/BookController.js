@@ -9,7 +9,7 @@ exports.addBook = async (req, res) => {
   }
 };
 
-exports.getBook = async (req, res) => {
+exports.fetchBook = async (req, res) => {
   try {
     const book = await bookService.getBook(req.params.id);
     res.json(book);
@@ -32,6 +32,16 @@ exports.deleteBook = async (req, res) => {
   try {
     const deletedBook = await bookService.deleteBook(req.params.id);
     res.json(deletedBook);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+};
+
+
+exports.searchBooks = async (req, res) => {
+  try {
+    const books = await bookService.searchBooks(req.query.search);
+    res.json(books);
   } catch (err) {
     res.status(400).json({ error: err.message });
   }

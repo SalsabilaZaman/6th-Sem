@@ -1,4 +1,6 @@
 const Book = require('../models/Book');
+const { Op } = require('sequelize');
+
 
 const addBook = async (bookData) => {
     try {
@@ -24,8 +26,9 @@ const addBook = async (bookData) => {
   };
   
 
-const getBookById = async (bookID ) => {
-  return await Book.findByPk(bookID);
+const getBookById = async (bookID) => {
+  const bookid=bookID;
+  return await Book.findByPk(bookid);
 };
 
 const updateBook = async (bookID,bookData ) => {
@@ -89,11 +92,22 @@ const findAll=async() => {
 const count = async () => {
     return await Book.count();
   };
-  
+
+const searchBooks = async (searchTerm) => {
+  return await Book.findAll({
+    where: {
+      [Op.or]: [
+        { title: { [Op.iLike]: `%${searchTerm}%` } },
+        { author: { [Op.iLike]: `%${searchTerm}%` } }
+      ]
+    }
+  });
+};
+
   
 module.exports = {
   addBook,
   getBookById,
   updateBook,
-  deleteBook,borrowBook,findAll,count
+  deleteBook,borrowBook,findAll,count,searchBooks
 };

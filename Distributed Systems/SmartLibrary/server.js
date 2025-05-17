@@ -110,6 +110,63 @@ app.post('/loans', async (req, res) => {
     res.status(500).send('Error creating loan');
   }
 });
+// demo code
+app.post('/returns', async (req, res) => {
+  const { loan_id } = req.body;
+  try {
+    const result = await pool.query(
+      'INSERT INTO loan(user_id,book_id,due_date) VALUES ($1, $2, $3) RETURNING *',
+      [user_id,book_id,due_date]
+    );
+    res.status(201).json(result.rows[0]);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error creating loan');
+  }
+});
+
+app.get('/loans/:id', async (req, res) => {
+  const { loan_id } = req.params;
+  try {
+    const result = await pool.query(
+      'INSERT INTO loan(user_id,book_id,due_date) VALUES ($1, $2, $3) RETURNING *',
+      [user_id,book_id,due_date]
+    );
+    res.status(201).json(result.rows[0]);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error creating loan');
+  }
+});
+
+app.get('/loans/overdue', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT * FROM loan where status="OVERDUE"');
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server error');
+  }
+});
+
+PUT /api/loans/{id}/extend
+
+app.put('/loans/:id', async (req, res) => {
+  const { id } = req.params;
+  const { copies, available_copies } = req.body;
+  try {
+    const result = await pool.query(
+      'UPDATE books SET copies = $1, available_copies = $2 WHERE id = $3 RETURNING *',
+      [copies, available_copies, id]
+    );
+    res.json(result.rows[0]);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error updating books');
+  }
+});
+
+
 
 app.listen(3000, () => console.log('Server running on http://localhost:3000'));
 

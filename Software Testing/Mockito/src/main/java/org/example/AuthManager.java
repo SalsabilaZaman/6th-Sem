@@ -16,7 +16,7 @@ public class AuthManager {
             if (user != null) {
                 int hashedPass = hashing.hashPassword(password);
                 if (hashedPass == user.getPass()) {
-                    //System.out.println("Login Successful");
+                    System.out.println("Login Successful");
                     return user;
                 }
                 else {

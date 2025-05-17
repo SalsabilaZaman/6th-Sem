@@ -1,8 +1,11 @@
 -- Switch to your app database
-CREATE DATABASE smartlibrary;
+-- CREATE DATABASE smartlibrary;
 
 \c smartlibrary;
 
+DROP TABLE users;
+DROP TABLE books;
+DROP TABLE loan;
 -- Create the users table
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
@@ -29,6 +32,9 @@ CREATE TABLE loan (
   book_id INT NOT NULL REFERENCES books(id) ON DELETE CASCADE,
   issue_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   due_date TIMESTAMP NOT NULL,
+  return_date TIMESTAMP, -- NULL means not yet returned
+  original_due_date TIMESTAMP, -- stores the first due_date before any extension
+  extensions_count INT NOT NULL DEFAULT 0,
   status TEXT NOT NULL DEFAULT 'ACTIVE' CHECK (status IN ('ACTIVE', 'RETURNED', 'OVERDUE'))
 );
 
@@ -65,24 +71,26 @@ BEFORE UPDATE ON books
 FOR EACH ROW
 EXECUTE FUNCTION update_updated_at();
 
--- Create user for your app
-CREATE USER librarian WITH PASSWORD 'librarian';
 
--- Give user access to the database
-GRANT ALL PRIVILEGES ON DATABASE smartlibrary TO librarian;
 
--- Grant connection and usage rights
-GRANT CONNECT ON DATABASE smartlibrary TO librarian;
-GRANT USAGE ON SCHEMA public TO librarian;
+-- -- Create user for your app
+-- CREATE USER librarian WITH PASSWORD 'librarian';
 
--- Grant access to tables and sequences
-GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO librarian;
-GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO librarian;
+-- -- Give user access to the database
+-- GRANT ALL PRIVILEGES ON DATABASE smartlibrary TO librarian;
 
--- Automatically grant these permissions for future tables and sequences
-ALTER DEFAULT PRIVILEGES IN SCHEMA public
-GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO librarian;
+-- -- Grant connection and usage rights
+-- GRANT CONNECT ON DATABASE smartlibrary TO librarian;
+-- GRANT USAGE ON SCHEMA public TO librarian;
 
-ALTER DEFAULT PRIVILEGES IN SCHEMA public
-GRANT USAGE, SELECT ON SEQUENCES TO librarian;
+-- -- Grant access to tables and sequences
+-- GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO librarian;
+-- GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO librarian;
+
+-- -- Automatically grant these permissions for future tables and sequences
+-- ALTER DEFAULT PRIVILEGES IN SCHEMA public
+-- GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO librarian;
+
+-- ALTER DEFAULT PRIVILEGES IN SCHEMA public
+-- GRANT USAGE, SELECT ON SEQUENCES TO librarian;
 

@@ -2,15 +2,21 @@ const express = require('express');
 const router = express.Router();
 const bookController = require('../BookController');
 
-// Register a new user
-router.post('/', bookController.addBook);
 
 // Get user by ID
-router.get('/:id', bookController.getBook);
+router.get('/:id', bookController.fetchBook);
 
-// Update user profile
+router.get('/',bookController.searchBooks)
+
+
+
+router.post('/', bookController.addBook);
+
+
 router.put('/:id', bookController.updateBook);
 
 router.delete('/:id', bookController.deleteBook);
+
+
 
 module.exports = router;

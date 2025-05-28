@@ -67,4 +67,16 @@ public class LoginPage {
         logger.info("Retrieved error message: '{}'", text);
         return text;
     }
+    public String getValidationMessageFromEmailField() {
+
+        WebElement input = wait.until(ExpectedConditions.visibilityOfElementLocated(emailField));
+        String message = input.getAttribute("validationMessage");
+        return message;
+    }
+    public String getValidationMessageFromPasswordField() {
+
+        WebElement input = wait.until(ExpectedConditions.visibilityOfElementLocated(passwordField));
+        String message = input.getAttribute("validationMessage");
+        return message;
+    }
 }

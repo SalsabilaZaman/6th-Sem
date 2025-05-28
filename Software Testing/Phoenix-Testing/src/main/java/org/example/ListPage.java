@@ -87,7 +87,11 @@ public class ListPage {
     private final By cardNameField = By.id("card_name");
     private final By submitCardButton = By.cssSelector("button");
     private final By cardContent = By.cssSelector(".card-content > span");
-    private final By cardDescriptionField = By.cssSelector(".form-wrapper textarea");
+    //private final By editDescriptionButton = By.xpath("//button[contains(., 'Edit')]");
+    private final By editDescriptionButton=By.linkText("Edit");
+    private final By cardDescriptionField = By.cssSelector("textarea:nth-child(2)");
+    private final By saveDescriptionButton = By.cssSelector("button:nth-child(3)");
+    private final By descriptionDisplay = By.cssSelector("p");
     private final By cardMembersField = By.id("card_members");
     private final By cardTagsField = By.id("card_tags");
     private final By addCommentField = By.id("add_comment");
@@ -157,6 +161,14 @@ public class ListPage {
         logger.info("Retrieved card content: '{}'", text);
         return text;
     }
+    public void clickCardName() {
+        logger.info("Clicking card name to open details");
+        WebElement card = wait.until(ExpectedConditions.elementToBeClickable(cardContent));
+        card.click();
+        logger.info("Clicked card name");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(editDescriptionButton));
+        logger.info("Card details popup is visible with Edit button");
+    }
 
     public String getValidationMessage() {
         logger.info("Retrieving validation message");
@@ -165,12 +177,35 @@ public class ListPage {
         logger.info("Retrieved validation message: '{}'", message);
         return message;
     }
+    public void clickEditDescriptionButton() {
+        logger.info("Clicking Edit button for description");
+        WebElement button = wait.until(ExpectedConditions.elementToBeClickable(editDescriptionButton));
+        button.click();
+        logger.info("Clicked Edit button");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(cardDescriptionField));
+        logger.info("Description field is visible");
+    }
     public void enterCardDescription(String description) {
         logger.info("Entering card description '{}'", description);
         WebElement input = wait.until(ExpectedConditions.visibilityOfElementLocated(cardDescriptionField));
         input.clear();
         input.sendKeys(description);
         logger.info("Entered card description '{}'", description);
+    }
+    public void clickSaveDescriptionButton() {
+        logger.info("Clicking Save button for description");
+        WebElement button = wait.until(ExpectedConditions.elementToBeClickable(saveDescriptionButton));
+        button.click();
+        logger.info("Clicked Save button");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(descriptionDisplay));
+        logger.info("Description display is visible");
+    }
+    public String getDescriptionContent() {
+        logger.info("Retrieving description content");
+        WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(descriptionDisplay));
+        String text = element.getText();
+        logger.info("Retrieved description content: '{}'", text);
+        return text;
     }
 
     public void enterCardMembers(String members) {

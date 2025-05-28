@@ -92,8 +92,10 @@ public class ListPageTest {
         listPage.clickAddCardLink();
         listPage.enterCardName("hyyy");
         listPage.clickSubmitCardButton();
+        listPage.clickCardName();
+        listPage.clickEditDescriptionButton();
         listPage.enterCardDescription("Test description");
-        // Note: Add assertion if description field has a visible output
-        // e.g., assertThat(driver.findElement(By.id("card_description_display")).getText(), is("Test description"));
+        listPage.clickSaveDescriptionButton();
+        assertThat(listPage.getDescriptionContent(), is("Test description"));
     }
 }

@@ -76,5 +76,17 @@ public class SignUpPageTest  {
         signUpPage.clickSignUpButton();
         assertThat(signUpPage.getErrorMessage(), is("should be at least 5 character(s)"));
     }
+    @Test
+    public void invalidSignUpWithInvalidEmail() {
+        signUpPage.navigateToSignUp();
+        driver.manage().window().setSize(new Dimension(602, 781));
+        signUpPage.enterFirstName("Salsabila");
+        signUpPage.enterLastName("Zaman");
+        signUpPage.enterEmail("john");
+        signUpPage.enterPassword("iit123");
+        signUpPage.enterPasswordConfirmation("iit123");
+        signUpPage.clickSignUpButton();
+        assertThat(signUpPage.getValidationMessageFromEmailField(), is("Please enter an email address."));
+    }
 
 }

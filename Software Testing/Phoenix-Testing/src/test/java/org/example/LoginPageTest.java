@@ -44,12 +44,30 @@ public class LoginPageTest {
     }
 
     @Test
-    public void invalidLogin() {
+    public void invalidLoginWithWrongPassword() {
         loginPage.navigateToLogin();
         driver.manage().window().setSize(new Dimension(602, 933));
         loginPage.enterEmail("invalid@invalid.com");
         loginPage.enterPassword("wrongpass");
         loginPage.clickLoginButton();
         assertThat(loginPage.getErrorMessage(), is("Invalid email or password"));
+    }
+    @Test
+    public void invalidLoginWithNoEmail() {
+        loginPage.navigateToLogin();
+        driver.manage().window().setSize(new Dimension(602, 933));
+        loginPage.enterEmail("");
+        loginPage.enterPassword("aa");
+        loginPage.clickLoginButton();
+        assertThat(loginPage.getValidationMessageFromEmailField(), is("Please fill out this field."));
+    }
+    @Test
+    public void invalidLoginWithNoPassword() {
+        loginPage.navigateToLogin();
+        driver.manage().window().setSize(new Dimension(602, 933));
+        loginPage.enterEmail("invalid@invalid.com");
+        loginPage.enterPassword("");
+        loginPage.clickLoginButton();
+        assertThat(loginPage.getValidationMessageFromPasswordField(), is("Please fill out this field."));
     }
 }

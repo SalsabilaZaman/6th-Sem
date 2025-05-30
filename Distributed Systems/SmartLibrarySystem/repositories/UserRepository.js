@@ -14,9 +14,19 @@ const count = async () => {
   return await User.count();
 };
 
+const updateUser = async (userId, updateData) => {
+  const user = await User.findByPk(userId);
+  if (!user) {
+    throw new Error("User not found");
+  }
+  
+  await user.update(updateData);
+  return user;
+};
+
 
 module.exports = {
   createUser,
   getUserById,
-  findAll,count
+  findAll,count,updateUser
 };

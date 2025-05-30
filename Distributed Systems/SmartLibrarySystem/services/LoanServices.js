@@ -12,14 +12,17 @@ class LoanService {
 
     const book = await BookRepository.getBookById(bookId);
     if (!book) throw new Error('Book not found');
+    if(book.available_copies>0)
+       return await LoanRepository.createLoan({ user_id: userId, book_id: bookId, due_date: dueDate });
+    else
+      throw new Error('Book not available');
 
-    return await LoanRepository.createLoan({ user_id: userId, book_id: bookId, due_date: dueDate });
   }
 
   async returnBook(loanId) {
     const loan = await LoanRepository.getLoanById(loanId);
     if (!loan) throw new Error('Loan not found');
-
+    
     loan.status = 'RETURNED';
     loan.return_date = new Date();
     await loan.save();

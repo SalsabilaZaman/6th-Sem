@@ -15,7 +15,25 @@ const getUserProfile = async (userId) => {
   return user;
 };
 
+const updateUser = async (userId, updateData) => {
+  try {
+    const allowedFields = ["name", "email"];
+    const validData = {};
+
+    // Only allow updating specified fields
+    allowedFields.forEach((field) => {
+      if (updateData[field] !== undefined) {
+        validData[field] = updateData[field];
+      }
+    });
+
+    return await userRepository.updateUser(userId, validData);
+  } catch (err) {
+    throw new Error(err.message);
+  }
+};
+
 module.exports = {
   registerUser,
-  getUserProfile,
+  getUserProfile,updateUser
 };

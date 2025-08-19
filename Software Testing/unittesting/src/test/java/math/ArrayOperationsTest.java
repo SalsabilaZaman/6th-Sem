@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
+import java.util.InputMismatchException;
 
 import static org.junit.Assert.*;
 
@@ -27,17 +28,17 @@ public class ArrayOperationsTest {
 
     @Test
     public void findPrimesInFile() {
-        String filePath = "E:\\6th Sem\\unittesting\\src\\test\\resources\\grades_valid.txt";
+        String filePath = "src/test/resources/grades_valid.txt";
         int[] expected = {3, 2, 3, 3};
         int[] actual = arrayOperations.findPrimesInFile(fileIO, filePath, math);
 
         assertArrayEquals(expected, actual);
     }
 
-    @Test
+    @Test(expected= IllegalArgumentException.class)
     public void findPrimesInFile2() {
-        String filePath = "E:\\6th Sem\\unittesting\\src\\test\\resources\\grades_valid.txt";
-        int[] arrayOfNumbers = fileIO.readFile(filePath);
+        String filePath = "src/test/resources/grades_invalid.txt";
+//        int[] arrayOfNumbers = fileIO.readFile(filePath);
         int[] expected = {3,9,0,2,10,9,3,8,0,3};
         int[] actual = arrayOperations.findPrimesInFile(fileIO, filePath, math);
 
@@ -45,12 +46,12 @@ public class ArrayOperationsTest {
 
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void findPrimesInFile3() {
-        String filePath = "E:\\6th Sem\\unittesting\\src\\test\\resources\\empty_file.txt";
-        int[] expected = {3, 2, 3, 3};
+        String filePath = "src/test/resources/empty_file.txt";
+        //int[] expected = {3, 2, 3, 3};
         int[] actual = arrayOperations.findPrimesInFile(fileIO, filePath, math);
 
-        assertArrayEquals(expected, actual);
+        //assertArrayEquals(expected, actual);
     }
 }

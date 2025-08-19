@@ -1,11 +1,10 @@
 package math;
 
+
+
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-
 import io.FileIO;
-
 /**
  * The MyMath provides simple methods such as computing a factorial or finding
  * whether an integer is prime
@@ -16,7 +15,6 @@ import io.FileIO;
  */
 
 public class ArrayOperations {
-
 	/**
 	 * Gets one integer and returns true if it is prime and false if it is not.
 	 * 

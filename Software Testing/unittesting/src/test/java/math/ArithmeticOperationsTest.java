@@ -36,7 +36,7 @@ public class ArithmeticOperationsTest {
     }
     @Test
     public void multiply() {
-        int expected=5;
+        int expected=20;
         int actual=(new ArithmeticOperations()).multiply(10,2);
 
         assertEquals(expected,actual,1e-3);

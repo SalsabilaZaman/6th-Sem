@@ -16,7 +16,7 @@ public class MyClassTest {
 
     @Test
     public void div() {
-        float expected=3.0F;
+        float expected=2.0F;
         float actual=(new MyClass()).div(10,5);
         assertEquals(expected,actual,1e-5);
     }

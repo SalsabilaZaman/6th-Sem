@@ -1,7 +1,5 @@
 package io;
 
-import math.ArrayOperations;
-import math.MyMath;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -24,7 +22,7 @@ public class FileIOTest {
 
     @org.junit.Test
     public void readFile() {
-        String filePath = "D:\\Salsa\\6th-Sem\\Software Testing\\unittesting\\src\\test\\resources\\grades_valid.txt";
+        String filePath = "src/test/resources/grades_valid.txt";
         int[] actual = fileIO.readFile(filePath);
         int[] expected = {3,9,0,2,10,9,3,8,0,3};
         
@@ -34,7 +32,7 @@ public class FileIOTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void test_invalid_file() {
-        String filePath = "D:\\Salsa\\6th-Sem\\Software Testing\\unittesting\\src\\test\\resources\\hello.txt";
+        String filePath = "src/test/resources/hello.txt";
         (new FileIO()).readFile(filePath);
     }
     @Test(expected = IllegalArgumentException.class)
@@ -45,7 +43,7 @@ public class FileIOTest {
 
     @Test(expected = NumberFormatException.class)
     public void test_invalid_entries() {
-        String filePath = "D:\\Salsa\\6th-Sem\\Software Testing\\unittesting\\src\\test\\resources\\grades_invalid.txt";
+        String filePath = "src/test/resources/grades_invalid.txt";
         (new FileIO()).readFile(filePath);
     }
 }

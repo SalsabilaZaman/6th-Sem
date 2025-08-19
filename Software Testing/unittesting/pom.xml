@@ -11,6 +11,7 @@
 <!--	<artifactId>unittesting</artifactId>-->
 	<name>Testing Arithmetic Operations</name>
 	<description>This is a module for testing basic arithmetic operations</description>
+
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -37,6 +38,21 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-
-
+	<build>
+	<plugins>
+		<plugin>
+			<groupId>org.jacoco</groupId>
+			<artifactId>jacoco-maven-plugin</artifactId>
+			<version>0.8.3</version>
+			<executions>
+				<execution>
+					<id>prepare-agent</id>
+					<goals>
+						<goal>prepare-agent</goal>
+					</goals>
+				</execution>
+			</executions>
+		</plugin>
+	</plugins>
+	</build>
 </project>
